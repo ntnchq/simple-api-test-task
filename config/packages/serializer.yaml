@@ -1,0 +1,9 @@
+framework:
+    serializer:
+        enabled: true
+        enable_attributes: true
+        mapping:
+            paths: ['%kernel.project_dir%/src']
+        default_context:
+            json:
+                normalizers: ['Symfony\Component\Serializer\Normalizer\PropertyNormalizer'] 

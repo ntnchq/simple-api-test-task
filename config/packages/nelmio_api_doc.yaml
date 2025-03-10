@@ -1,0 +1,23 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Example API
+            description: |
+                RESTful API for managing articles and tags.
+                
+                ## Key Features
+                
+                * Create, read, update, and delete articles
+                * Create, read, update, and delete tags
+                * Associate tags with articles
+                * Filter articles by tags
+                * Paginate results
+            version: 1.0.0
+        tags:
+            - name: Articles
+              description: Operations with articles
+            - name: Tags
+              description: Operations with tags
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$)

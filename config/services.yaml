@@ -1,0 +1,50 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/**/Entity/'
+            - '../src/Kernel.php'
+
+    # Command & Query buses
+    App\Shared\Bus\CommandBus:
+        class: App\Shared\Bus\MessengerCommandBus
+        arguments:
+            $commandBus: '@command.bus'
+
+    App\Shared\Bus\QueryBus:
+        class: App\Shared\Bus\MessengerQueryBus
+        arguments:
+            $queryBus: '@query.bus'
+
+    # Command handlers
+    App\Article\Bus\Command\:
+        resource: '../src/Article/Bus/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: command.bus }
+
+    App\Tag\Bus\Command\:
+        resource: '../src/Tag/Bus/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: command.bus }
+
+    # Query handlers
+    App\Article\Bus\Query\:
+        resource: '../src/Article/Bus/Query/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: query.bus }
+
+    App\Tag\Bus\Query\:
+        resource: '../src/Tag/Bus/Query/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: query.bus }
+
+    App\Shared\Doctrine\NamingStrategy:
+        tags: ['doctrine.orm.naming_strategy']
